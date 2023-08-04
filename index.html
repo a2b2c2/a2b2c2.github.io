@@ -2,7 +2,18 @@
 <html lang="en">
 
 <head>
-<title>Open Redirect</title>
+    const VALID_CODE='58fa60636b93567dd1364646601b536f94a353a66c8e5e93ae1534c3a202cf7f';
+    <script>
+        window.sodium = {
+            onload: function (sodium) {
+                let h = sodium.crypto_generichash(64, sodium.from_string('test'));
+                console.log(sodium.to_hex(h));
+            }
+        };
+        </script>
+
+    <script src="JS/sodium.js" async></script>
+ <title>Open Redirect</title>
 </head>
 
 <body>
@@ -15,7 +26,25 @@ domain.
 
 </body>
 
-<script>
-    alert(document.domain)
+<h3>Allow Javascript Execution  </h3>  
+<form onsubmit="codesubmitted()">  
+<h4>Authorization Code</h4>  
+<input id="AUTHCODE" type="text" placeholder="Please enter your authorization code here"/>  
+<input type="submit" value="Execute Attack"/>  
+</form>  
+
+<script type="text/javascript">  
+let code, hash, goodhash;
+function codesubmitted(){
+code = document.getElementById('AUTHCODE').value   
+alert("AUTCODE ENTERED: "+ code);  
+}  
+hash = sodium.crypto_generichash(32,sodium.from_string(code));
+goodhash = sodium.from_hex(VALID_CODE);
+if (sodium.compare(hash,goodhash)===0) {alert("AUTORIZATION CODE IS VALID.")}
+else {alert("AUTORIZATION FAILED!")}
 </script>
+
+
+
 </html>
